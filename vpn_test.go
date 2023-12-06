@@ -1,13 +1,11 @@
 package vpn
 
 import (
-	"encoding/json"
-	"fmt"
 	"testing"
 )
 
 func TestAddVpnAccount(t *testing.T) {
-	client := NewVpnClient("", "")
+	client := NewVpnClientWithEnv()
 	params := &AddAccountParams{
 		Name:        "sdkTest3",
 		Note:        "sdk测试3",
@@ -17,34 +15,31 @@ func TestAddVpnAccount(t *testing.T) {
 	}
 	res, err := client.AddAccount(params)
 	if err != nil {
-		fmt.Println(err)
-		return
+		t.Fatal(err)
 	}
-	fmt.Println(params.Passwd, res)
+	t.Log(res)
 }
 
 func TestDelVpnAccount(t *testing.T) {
-	client := NewVpnClient("", "")
+	client := NewVpnClientWithEnv()
 	params := &DelAccountParams{Names: "sdkTest3"}
 	res, err := client.DelAccount(params)
 	if err != nil {
-		fmt.Println(err)
-		return
+		t.Fatal(err)
 	}
-	fmt.Println(res)
+	t.Log(res)
 }
 func TestGetAccountDetail(t *testing.T) {
-	client := NewVpnClient("", "")
+	client := NewVpnClientWithEnv()
 	params := &GetAccountDetailParams{Username: "test0917"}
 	res, err := client.GetAccountDetail(params)
 	if err != nil {
-		fmt.Println(err)
-		return
+		t.Fatal(err)
 	}
-	fmt.Println(res)
+	t.Log(res)
 }
 func TestResetPwd(t *testing.T) {
-	client := NewVpnClient("", "")
+	client := NewVpnClientWithEnv()
 	params := &ResetPwdParams{
 		NewName:     "sdkTest3",
 		Note:        "sdk测试3",
@@ -55,10 +50,9 @@ func TestResetPwd(t *testing.T) {
 	}
 	res, err := client.ResetPwd(params)
 	if err != nil {
-		fmt.Println(err)
-		return
+		t.Fatal(err)
 	}
-	fmt.Println(res)
+	t.Log(res)
 }
 
 func TestGetUserList(t *testing.T) {
@@ -66,10 +60,9 @@ func TestGetUserList(t *testing.T) {
 	params := &GetUserList{Limit: "100"}
 	res, err := client.GetUserList(params)
 	if err != nil {
-		fmt.Println(err)
-		return
+		t.Fatal(err)
 	}
-	fmt.Println(res)
+	t.Log(res)
 }
 
 func TestDisconnectUser(t *testing.T) {
@@ -77,55 +70,41 @@ func TestDisconnectUser(t *testing.T) {
 	params := &DisConnectUser{Users: ""}
 	res, err := client.DisConnectUser(params)
 	if err != nil {
-		fmt.Println(err)
-		return
+		t.Fatal(err)
 	}
-	fmt.Println(res)
+	t.Log(res)
 }
 
 func TestIsUserExist(t *testing.T) {
-	client := NewVpnClient("", "")
+	client := NewVpnClientWithEnv()
 	params := &IsUserExist{Username: ""}
 	res, err := client.IsUserExist(params)
 	if err != nil {
-		fmt.Println(err)
-		return
+		t.Fatal(err)
 	}
-	marshal, err := json.Marshal(res)
-	if err != nil {
-		return
-	}
-	fmt.Println(string(marshal))
+	t.Log(res)
 }
 
 func TestIsGroupExist(t *testing.T) {
-	client := NewVpnClient("", "")
-	params := &IsGroupExist{GroupName: ""}
+	client := NewVpnClientWithEnv()
+	params := &IsGroupExist{GroupName: "/供应链"}
 	res, err := client.IsGroupExist(params)
 	if err != nil {
-		fmt.Println("111")
-		fmt.Println(err)
-		return
+		t.Fatal(err)
 	}
-	marshal, err := json.Marshal(res)
-	if err != nil {
-		return
-	}
-	fmt.Println(string(marshal))
+	t.Log(res)
 }
 
 func TestAddGroup(t *testing.T) {
-	client := NewVpnClient("", "")
-	params := &AddGroup{Name: "", ParentGroup: "", Note: ""}
+	client := NewVpnClientWithEnv()
+	params := &AddGroup{
+		Name:        "信息化管理部",
+		ParentGroup: "/",
+		Note:        "信息化管理部",
+	}
 	res, err := client.AddGroup(params)
 	if err != nil {
-		fmt.Println("111")
-		fmt.Println(err)
-		return
+		t.Fatal(err)
 	}
-	marshal, err := json.Marshal(res)
-	if err != nil {
-		return
-	}
-	fmt.Println(string(marshal))
+	t.Log(res)
 }

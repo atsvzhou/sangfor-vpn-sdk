@@ -24,7 +24,7 @@ func (v *VpnClient) AddAccount(p *AddAccountParams) (*VpnRes, error) {
 	}
 
 	if !addVpnRes.Success {
-		return nil, fmt.Errorf("add account failed, err: %s", addVpnRes.Message)
+		return nil, fmt.Errorf("add account failed, err: %s", addVpnRes.ToString())
 	}
 
 	return addVpnRes, err
@@ -49,7 +49,7 @@ func (v *VpnClient) DelAccount(p *DelAccountParams) (*VpnRes, error) {
 	}
 
 	if !delVpnRes.Success {
-		return nil, fmt.Errorf("del account failed, err: %s", delVpnRes.Message)
+		return nil, fmt.Errorf("del account failed, err: %s", delVpnRes.ToString())
 	}
 	return delVpnRes, err
 }
@@ -73,12 +73,11 @@ func (v *VpnClient) GetAccountDetail(p *GetAccountDetailParams) (*VpnRes, error)
 	}
 
 	if !getAccountRes.Success {
-		return nil, fmt.Errorf("get account detail failed, err: %s", getAccountRes.Message)
+		return nil, fmt.Errorf("get account detail failed, err: %s", getAccountRes.ToString())
 	}
 	return getAccountRes, err
 }
 
-//
 func (v *VpnClient) ResetPwd(p *ResetPwdParams) (*VpnRes, error) {
 	a := NewCommonParams("UpdateUserCloud", "User")
 	m := v.GetSignMap(p, a)
@@ -97,7 +96,7 @@ func (v *VpnClient) ResetPwd(p *ResetPwdParams) (*VpnRes, error) {
 	}
 
 	if !resetPwd.Success {
-		return nil, fmt.Errorf("reset pwd failed, err: %s", resetPwd.Message)
+		return nil, fmt.Errorf("reset pwd failed, err: %s", resetPwd.ToString())
 	}
 	return resetPwd, err
 }
@@ -121,7 +120,7 @@ func (v *VpnClient) GetUserList(p *GetUserList) (*VpnRes, error) {
 	}
 
 	if !getUserList.Success {
-		return nil, fmt.Errorf("get user list failed, err: %s", getUserList.Message)
+		return nil, fmt.Errorf("get user list failed, err: %s", getUserList.ToString())
 	}
 	return getUserList, err
 }
@@ -145,7 +144,7 @@ func (v *VpnClient) DisConnectUser(p *DisConnectUser) (*VpnRes, error) {
 	}
 
 	if !disConnectUserRes.Success {
-		return nil, fmt.Errorf("disconnect user failed, err: %s", disConnectUserRes.Message)
+		return nil, fmt.Errorf("disconnect user failed, err: %s", disConnectUserRes.ToString())
 	}
 	return disConnectUserRes, err
 }
@@ -169,7 +168,7 @@ func (v *VpnClient) IsUserExist(p *IsUserExist) (*VpnRes, error) {
 	}
 
 	if !isUserExist.Success {
-		return nil, fmt.Errorf("IsUserExist failed, err: %s", isUserExist.Message)
+		return nil, fmt.Errorf("IsUserExist failed, err: %s", isUserExist.ToString())
 	}
 	return isUserExist, err
 }
@@ -193,7 +192,7 @@ func (v *VpnClient) IsGroupExist(p *IsGroupExist) (*VpnRes, error) {
 	}
 
 	if !isGroupExist.Success {
-		return nil, fmt.Errorf("IsGroupExist failed, err: %s", isGroupExist.Message)
+		return nil, fmt.Errorf("IsGroupExist failed, err: %s", isGroupExist.ToString())
 	}
 	return isGroupExist, err
 }
@@ -217,7 +216,7 @@ func (v *VpnClient) AddGroup(p *AddGroup) (*VpnRes, error) {
 	}
 
 	if !addGroup.Success {
-		return nil, fmt.Errorf("AddGroup failed, err: %s", addGroup.Message)
+		return nil, fmt.Errorf("AddGroup failed, err: %s", addGroup.ToString())
 	}
 	return addGroup, err
 }

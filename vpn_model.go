@@ -1,10 +1,23 @@
 package vpn
 
+import (
+	"encoding/json"
+)
+
 type VpnRes struct {
 	Code    int                    `json:"code"`
 	Success bool                   `json:"success"`
 	Message string                 `json:"message"`
 	Result  map[string]interface{} `json:"result"`
+}
+
+func (v *VpnRes) ToString() string {
+	if v == nil {
+		return ""
+	}
+
+	data, _ := json.Marshal(v)
+	return string(data)
 }
 
 type VpnResult struct {

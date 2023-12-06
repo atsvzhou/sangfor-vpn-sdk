@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"reflect"
 	"sort"
 	"strconv"
@@ -26,6 +27,13 @@ func NewVpnClient(host, secret string) *VpnClient {
 		time:   strconv.FormatInt(time.Now().Unix(), 10),
 		client: &http.Client{},
 	}
+}
+
+// 使用SANGFOR_VPN_HOST和SANGFOR_VPN_SECRET环境变量初始化vpn客户端
+func NewVpnClientWithEnv() *VpnClient {
+	host := os.Getenv("SANGFOR_VPN_HOST")
+	secret := os.Getenv("SANGFOR_VPN_SECRET")
+	return NewVpnClient(host, secret)
 }
 
 func ParamsToSortQuery(params map[string]string) string {
