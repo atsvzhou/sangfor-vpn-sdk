@@ -22,7 +22,7 @@ func TestAddVpnAccount(t *testing.T) {
 
 func TestDelVpnAccount(t *testing.T) {
 	client := NewVpnClientWithEnv()
-	params := &DelAccountParams{Names: "sdkTest3"}
+	params := &DelAccountParams{Names: "testuser"}
 	res, err := client.DelAccount(params)
 	if err != nil {
 		t.Fatal(err)
@@ -31,7 +31,7 @@ func TestDelVpnAccount(t *testing.T) {
 }
 func TestGetAccountDetail(t *testing.T) {
 	client := NewVpnClientWithEnv()
-	params := &GetAccountDetailParams{Username: "test0917"}
+	params := &GetAccountDetailParams{Username: "testuser"}
 	res, err := client.GetAccountDetail(params)
 	if err != nil {
 		t.Fatal(err)
@@ -107,4 +107,32 @@ func TestAddGroup(t *testing.T) {
 		t.Fatal(err)
 	}
 	t.Log(res)
+}
+
+// 循环获取用户信息测试
+func TestGetUserListLoop(t *testing.T) {
+	client := NewVpnClientWithEnv()
+	res, err := client.AddAccount(&AddAccountParams{
+		Name:        "testuser",
+		Note:        "testuser",
+		ParentGroup: "/",
+		Passwd:      "testuser",
+		RoleName:    "",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(res)
+
+	res, err = client.GetAccountDetail(&GetAccountDetailParams{
+		Username: "testuser",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(res)
+
+	t.Cleanup(func() {
+		client.DelAccount(&DelAccountParams{Names: "testuser"})
+	})
 }

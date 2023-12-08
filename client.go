@@ -3,7 +3,7 @@ package vpn
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"reflect"
@@ -16,7 +16,6 @@ import (
 type VpnClient struct {
 	host   string
 	secret string
-	time   string
 	client *http.Client
 }
 
@@ -24,7 +23,6 @@ func NewVpnClient(host, secret string) *VpnClient {
 	return &VpnClient{
 		host:   host,
 		secret: secret,
-		time:   strconv.FormatInt(time.Now().Unix(), 10),
 		client: &http.Client{},
 	}
 }
@@ -66,17 +64,21 @@ func (c *VpnClient) VpnPost(uri, reqBody string) ([]byte, error) {
 	body, err := c.FormHttp(req)
 	return body, err
 }
+
+// FormHttp http请求基础模版
 func (c *VpnClient) FormHttp(req *http.Request) ([]byte, error) {
 	resp, err := c.client.Do(req)
 	if err != nil {
 		return nil, err
 	}
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
 	return body, nil
 }
+
+// Sha256 sha256加密
 func NewCommonParams(action, controler string) map[string]string {
 	p := map[string]string{
 		"action":    action,
@@ -121,9 +123,10 @@ func (v *VpnClient) GetSignMap(params interface{}, p map[string]string) map[stri
 	}
 
 	query := ParamsToSortQuery(handleParams)
+	time := strconv.FormatInt(time.Now().Unix(), 10)
 	var m = map[string]string{
-		"sinfor_apitoken": Sha256(query + v.time + v.secret),
-		"timestamp":       v.time,
+		"sinfor_apitoken": Sha256(query + time + v.secret),
+		"timestamp":       time,
 	}
 	return m
 }
